@@ -10,10 +10,10 @@ public class Fahrenheit extends Grado{
     }
 
     public Fahrenheit parse(Celsius c) {
-        return new Fahrenheit((c.getValor()*9/5)+32, "C");
+        return new Fahrenheit((c.getValor()*9/5)+32, "F");
     }
 
     public Fahrenheit parse(Kelvin k) {
-        return new Fahrenheit((k.getValor()-273.15)*9/5+32, "K");
+        return new Fahrenheit((k.getValor()-273.15)*9/5+32, "F");
     }
 }
