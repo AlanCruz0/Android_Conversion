@@ -15,6 +15,8 @@ import com.example.conversion.models.Fahrenheit;
 import com.example.conversion.models.Grado;
 import com.example.conversion.models.Kelvin;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
     EditText etxtvalor;
     private Spinner spinnerFrom;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewResult;
     private Button buttonConvert;
     String[] unidades = {"Celsius", "Fahrenheit", "Kelvin"};
+    DecimalFormat decimalFormat = new DecimalFormat("0.000");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         spinnerFrom.setAdapter(adapter);
         spinnerTo.setAdapter(adapter);
 
+
+
         buttonConvert.setOnClickListener(v -> {
             String inputValue = etxtvalor.getText().toString();
             String unitFrom = spinnerFrom.getSelectedItem().toString();
@@ -44,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
             Grado resultado = new Grado(Double.parseDouble(inputValue) , unitFrom);
             resultado = convertUnits(resultado, unitTo);
-            textViewResult.setText("Resultado: " + resultado.getValor() + " " + resultado.getUnidad());
+            String valorFormateado = decimalFormat.format(resultado.getValor());
+            textViewResult.setText("Resultado: " + valorFormateado + " °" + resultado.getUnidad());
         });
     }
     private Grado convertUnits(Grado value, String unitTo) {
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Kelvin k = new Kelvin(0.0);
 
         if (value.getUnidad().equals("Celsius")) {
-            Celsius obj = new Celsius(value.getValor(), value.getUnidad());
+            Celsius obj = new Celsius(value.getValor(), "C");
             if (unitTo.equals("Fahrenheit")){
                 return f.parse(obj);
             }
@@ -62,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return obj;
         } else if (value.getUnidad().equals("Fahrenheit")) {
-            Fahrenheit obj = new Fahrenheit(value.getValor(), value.getUnidad());
+            Fahrenheit obj = new Fahrenheit(value.getValor(), "F");
             if (unitTo.equals("Celsius")){
                 return c.parse(obj);
             }
@@ -71,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return obj;
         } else if (value.getUnidad().equals("Kelvin")) {
-            Kelvin obj = new Kelvin(value.getValor(), value.getUnidad());
+            Kelvin obj = new Kelvin(value.getValor(), "K");
             if (unitTo.equals("Celsius")){
                 return c.parse(obj);
             }
